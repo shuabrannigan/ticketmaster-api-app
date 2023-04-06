@@ -15,5 +15,6 @@
         <mat-datepicker-toggle matIconSuffix [for]="endDate"></mat-datepicker-toggle>
         <mat-datepicker #endDate></mat-datepicker>
     </mat-form-field>
+    <button mat-raised-button color="accent" (click)="clear()">Clear</button>
     <button mat-raised-button color="accent" data-test="searchButton" (click)="search()">Search</button>
 </div>

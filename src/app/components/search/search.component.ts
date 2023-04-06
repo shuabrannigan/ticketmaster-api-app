@@ -18,7 +18,7 @@ export class SearchComponent implements ISearchComponent {
     endDateTime: new FormControl('')
   })
   search(): void {
-    this.ticketMasterQueryService.getEvents(this.searchForm.value)
+    this.ticketMasterQueryService.getEvents(this.searchForm.value).subscribe()
   }
 
   clear(): void {
