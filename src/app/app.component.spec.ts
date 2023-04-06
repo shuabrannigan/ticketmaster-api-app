@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { ToolbarComponent} from './components/toolbar/toolbar.component'
 import { SharedModule } from './shared/shared.module';
 import { SearchComponent } from './components/search/search.component';
+import { ListComponent } from './components/list/list.component';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>
@@ -15,7 +16,7 @@ describe('AppComponent', () => {
         RouterTestingModule, SharedModule
       ],
       declarations: [
-        AppComponent, ToolbarComponent, SearchComponent
+        AppComponent, ToolbarComponent, SearchComponent, ListComponent
       ],
     }).compileComponents();
   });
@@ -31,7 +32,6 @@ describe('AppComponent', () => {
   });
 
   
-
   it('should render app-toolbar', () => {
     const toolbar = fixture.nativeElement.querySelector('app-toolbar')
     expect(toolbar).toBeTruthy()
@@ -48,6 +48,12 @@ describe('AppComponent', () => {
 
     let search = fixture.nativeElement.querySelector('[data-test="search-component"]')
     expect(search).toBeTruthy()
+  })
+
+  it('should render app-list', () => {
+    const list = fixture.nativeElement.querySelector('app-list')
+    expect(list).toBeTruthy()
+
   })
 
 
