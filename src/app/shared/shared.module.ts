@@ -14,6 +14,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { TicketMasterApiService } from "./services/api/ticketmaster-api.service";
 import { TicketMasterQueryService } from "./services/other/ticketmaster-query.service";
 import { LoadingService } from './services/other/loading.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 
@@ -28,6 +29,8 @@ const MaterialModules = [
     MatNativeDateModule,
     MatTableModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule
+
 ]
 
 @NgModule({

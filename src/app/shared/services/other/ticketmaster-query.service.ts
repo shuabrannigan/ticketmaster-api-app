@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable, catchError, finalize, map, switchMap, take
 import { TicketMasterApiSearchTerm } from "src/app/components/search/search.types";
 import { TicketMasterEventList } from "src/app/misc/event.types";
 import { TicketMasterApiService } from "../api/ticketmaster-api.service";
+import { LoadingService } from "./loading.service";
 
 interface ITicketMasterQueryService {
     responseEvents: BehaviorSubject<TicketMasterEventList>
@@ -21,7 +22,7 @@ const DEFAULTEVENTRESPONSE: TicketMasterEventList = {events: [], page: null}
 export class TicketMasterQueryService implements ITicketMasterQueryService {
 
 
-    constructor(private ticketMasterApiService: TicketMasterApiService){}
+    constructor(private ticketMasterApiService: TicketMasterApiService, private loadingService: LoadingService){}
 
 
     responseEvents: BehaviorSubject<TicketMasterEventList> = new BehaviorSubject<TicketMasterEventList>(DEFAULTEVENTRESPONSE)
@@ -33,6 +34,7 @@ export class TicketMasterQueryService implements ITicketMasterQueryService {
         if (searchTerm) {
             this.previousSearchTerm.next(searchTerm)
         }
+        this.loadingService.loading.next(true)
         const correctedTerm$ = this.previousSearchTerm$.pipe(map((previousTerm) => {
             let correctedTerm = this.convertDateToISOFormat(previousTerm)
             if (pageIndex) {
@@ -46,9 +48,10 @@ export class TicketMasterQueryService implements ITicketMasterQueryService {
             tap((response: any) => this.hydrateResponse(response)),
             catchError((error: any) => {
                 console.log(error)
+                this.loadingService.loading.next(false)
                 return throwError(() => new Error(error))
             }),
-            finalize(() => {}))
+            finalize(() => this.loadingService.loading.next(false)))
     }
 
     convertDateToISOFormat(searchTerm: TicketMasterApiSearchTerm): TicketMasterApiSearchTerm {
@@ -89,6 +92,7 @@ export class TicketMasterQueryService implements ITicketMasterQueryService {
           };
       
           this.responseEvents.next(concertEventList);
+          this.loadingService.loading.next(false)
     }
 
 

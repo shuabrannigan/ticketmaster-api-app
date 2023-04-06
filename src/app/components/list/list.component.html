@@ -1,5 +1,5 @@
 <div *ngIf="(loading$ | async); else content">
-<p data-test="loading">Loading!!</p>
+<mat-spinner data-test="loading"></mat-spinner>
 </div>
 <ng-template #content>
     <ng-container *ngIf="list$ | async as eventList">

@@ -3,6 +3,7 @@ import { IListComponent } from './list.types';
 import { Observable, of } from 'rxjs';
 import { TicketMasterEventList } from 'src/app/misc/event.types';
 import { TicketMasterQueryService } from 'src/app/shared/services/other/ticketmaster-query.service';
+import { LoadingService } from 'src/app/shared/services/other/loading.service';
 
 @Component({
   selector: 'app-list',
@@ -10,10 +11,10 @@ import { TicketMasterQueryService } from 'src/app/shared/services/other/ticketma
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements IListComponent {
-  constructor(private ticketMasterQuery: TicketMasterQueryService) {}
+  constructor(private ticketMasterQuery: TicketMasterQueryService, private loadingService: LoadingService) {}
 
   list$: Observable<TicketMasterEventList> = this.ticketMasterQuery.responseEvents$
-  loading$: Observable<boolean> = of(false)
+  loading$: Observable<boolean> = this.loadingService.loading$
 
   displayedColumns = ['name', 'venueName', 'startDate', 'endDate', 'eventUrl']
 
