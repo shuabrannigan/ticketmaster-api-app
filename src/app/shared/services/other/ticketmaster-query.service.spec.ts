@@ -26,8 +26,8 @@ describe('TicketMasterQueryApiService', () => {
     
     const searchTerm: TicketMasterApiSearchTerm = {
         city: 'Adelaide',
-        startDateTime: 'startDate',
-        endDateTime: 'endDate'
+        startDateTime: new Date('2023-04-06').toISOString(),
+        endDateTime: new Date('2023-04-06').toISOString()
     }
     const BASEURL = 'https://app.ticketmaster.com/discovery/v2/events?'
 
@@ -54,9 +54,11 @@ describe('TicketMasterQueryApiService', () => {
             expect(service.getEvents).toBeTruthy()
         })
 
-        it('should make a call to TicketMasterApiService.get()', () => {
+        it('should make a call to TicketMasterApiService.get()', (done) => {
             let apiServiceSpy = spyOn(apiService, 'get').and.returnValue(of(mockEventList))
-            service.getEvents({} as any)
+            service.getEvents(searchTerm).subscribe(() => {
+                done()
+            })
             expect(apiServiceSpy).toHaveBeenCalled()
         })
 
@@ -84,9 +86,24 @@ describe('TicketMasterQueryApiService', () => {
             })
         })
 
-        it('should make a call to convertDateToISOFormat with the previousTerm Vavlues', () => {
-            service.getEvents(searchTerm)
+        it('should make a call to convertDateToISOFormat with the previousTerm Values', (done) => {
+            const convertSpy = spyOn(service, 'convertDateToISOFormat')
+            service.getEvents(searchTerm).subscribe(() => {
+                
+                done()
+            })
+            expect(convertSpy).toHaveBeenCalled()
+
         })
+    })
+
+    it('passing searchterm to convertDateToISOFormat should return a corrected searchTerm', () => {
+        let expectedValues: TicketMasterApiSearchTerm = {
+            ...searchTerm, startDateTime: '2023-04-06T00:00:00Z',
+            endDateTime: '2023-04-06T00:00:00Z'
+        }
+        let coverted = service.convertDateToISOFormat(searchTerm)
+        expect(coverted).toEqual(expectedValues)
     })
 
 })
