@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, catchError, map, switchMap, take, tap, throwError } from "rxjs";
+import { BehaviorSubject, Observable, catchError, finalize, map, switchMap, take, tap, throwError } from "rxjs";
 import { TicketMasterApiSearchTerm } from "src/app/components/search/search.types";
 import { TicketMasterEventList } from "src/app/misc/event.types";
 import { TicketMasterApiService } from "../api/ticketmaster-api.service";
@@ -35,6 +35,9 @@ export class TicketMasterQueryService implements ITicketMasterQueryService {
         }
         const correctedTerm$ = this.previousSearchTerm$.pipe(map((previousTerm) => {
             let correctedTerm = this.convertDateToISOFormat(previousTerm)
+            if (pageIndex) {
+                correctedTerm = {...correctedTerm, page: pageIndex}
+            }
             return correctedTerm
         }))
         return correctedTerm$.pipe(
@@ -44,7 +47,8 @@ export class TicketMasterQueryService implements ITicketMasterQueryService {
             catchError((error: any) => {
                 console.log(error)
                 return throwError(() => new Error(error))
-            }))
+            }),
+            finalize(() => {}))
     }
 
     convertDateToISOFormat(searchTerm: TicketMasterApiSearchTerm): TicketMasterApiSearchTerm {
