@@ -109,7 +109,7 @@ describe('SearchComponent', () => {
   })
 
   it('calling search(), calls getEvents method on TicketMasterQueryService', () => {
-    const service = spyOn(queryService, 'getEvents')
+    const service = spyOn(queryService, 'getEvents').and.returnValue(of(mockEventList))
     component.search()
     expect(service).toHaveBeenCalled()
   })
