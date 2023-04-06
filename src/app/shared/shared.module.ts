@@ -11,6 +11,8 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { HttpClientModule } from "@angular/common/http";
+import { TicketMasterApiService } from "./services/api/ticketmaster-api.service";
+import { TicketMasterQueryService } from "./services/other/ticketmaster-query.service";
 
 
 
@@ -29,6 +31,7 @@ const MaterialModules = [
 
 @NgModule({
     imports: [CommonModule, HttpClientModule, BrowserAnimationsModule, MaterialModules,FormsModule, ReactiveFormsModule,],
-    exports: [MaterialModules,FormsModule, ReactiveFormsModule, BrowserAnimationsModule]
+    exports: [MaterialModules,FormsModule, ReactiveFormsModule, BrowserAnimationsModule],
+    providers: [TicketMasterApiService, TicketMasterQueryService]
 })
 export class SharedModule {}
