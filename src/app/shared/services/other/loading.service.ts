@@ -6,8 +6,10 @@ export interface ILoadingService {
     loading$: Observable<boolean>
 }
 
+const DEFAULTLOADING = false
+
 @Injectable()
 export class LoadingService implements ILoadingService {
-    loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
+    loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(DEFAULTLOADING)
     loading$: Observable<boolean> = this.loading.asObservable()
 }

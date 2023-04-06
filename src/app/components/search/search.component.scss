@@ -1,0 +1,18 @@
+:host {
+    width: 100%;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.container > mat-form-field {
+    margin: 1rem;
+}
+
+.container > mat-form-field {
+    margin-bottom: 0
+}
