@@ -11,12 +11,18 @@ import { TicketMasterQueryService } from 'src/app/shared/services/other/ticketma
 })
 export class ListComponent implements IListComponent {
   constructor(private ticketMasterQuery: TicketMasterQueryService) {}
+
   list$: Observable<TicketMasterEventList> = this.ticketMasterQuery.responseEvents$
   loading$: Observable<boolean> = of(false)
 
-  displayedColumns = ['name', 'venueName', 'startDate', 'endDate']
+  displayedColumns = ['name', 'venueName', 'startDate', 'endDate', 'eventUrl']
 
   onPageChange($event: any): void {
-    throw new Error('Method not implemented.');
+    const {pageIndex} = $event
+    this.ticketMasterQuery.getEvents(null, pageIndex).subscribe()
+  }
+
+  toEvent($url: string): void {
+    window.open($url, '_blank')
   }
 }

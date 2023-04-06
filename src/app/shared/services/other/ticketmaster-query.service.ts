@@ -29,7 +29,7 @@ export class TicketMasterQueryService implements ITicketMasterQueryService {
     previousSearchTerm: BehaviorSubject<TicketMasterApiSearchTerm> = new BehaviorSubject<TicketMasterApiSearchTerm>(DEFAULTSEARCHTERM)
     previousSearchTerm$: Observable<TicketMasterApiSearchTerm> = this.previousSearchTerm.asObservable()
 
-    getEvents(searchTerm: TicketMasterApiSearchTerm, pageIndex?: number): Observable<TicketMasterEventList> {
+    getEvents(searchTerm: TicketMasterApiSearchTerm | null, pageIndex?: number): Observable<TicketMasterEventList> {
         if (searchTerm) {
             this.previousSearchTerm.next(searchTerm)
         }

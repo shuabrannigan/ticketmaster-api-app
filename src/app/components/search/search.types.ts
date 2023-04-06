@@ -10,4 +10,5 @@ export interface TicketMasterApiSearchTerm {
 export interface ISearchComponent {
     searchForm: FormGroup
     search(): void
+    clear(): void
 }

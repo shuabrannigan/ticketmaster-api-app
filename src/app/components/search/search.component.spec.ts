@@ -1,22 +1,34 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, tick } from '@angular/core/testing';
 
 import { SearchComponent } from './search.component';
 import { TicketMasterApiSearchTerm } from './search.types';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { TicketMasterQueryService } from 'src/app/shared/services/other/ticketmaster-query.service';
+import { of } from 'rxjs';
+import { mockEventList } from '../list/list.types';
+
+export class MockTicketQueryService {
+  getEvents() {
+    return of(mockEventList)
+  }
+}
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
   let fixture: ComponentFixture<SearchComponent>;
+  let queryService: TicketMasterQueryService
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SharedModule],
-      declarations: [ SearchComponent ]
+      declarations: [ SearchComponent ],
+      providers: [{provide: TicketMasterQueryService, useClass: MockTicketQueryService}]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(SearchComponent);
     component = fixture.componentInstance;
+    queryService = TestBed.inject(TicketMasterQueryService)
     fixture.detectChanges();
   });
 
@@ -96,5 +108,18 @@ describe('SearchComponent', () => {
     })
   })
 
+  it('calling search(), calls getEvents method on TicketMasterQueryService', () => {
+    const service = spyOn(queryService, 'getEvents').and.returnValue(of(mockEventList))
+    component.search()
+    expect(service).toHaveBeenCalled()
+  })
 
+  it('calling clear(), resets the searchForm', () => {
+    const defaultValue = {city: '', startDateTime: '', endDateTime: ''}
+    const updatedValue = {...defaultValue, city: 'Adelaide'}
+    component.searchForm.patchValue(updatedValue)
+    expect(component.searchForm.value).toEqual(updatedValue)
+    component.clear()
+    expect(component.searchForm.value).toEqual(defaultValue)
+  })
 });
