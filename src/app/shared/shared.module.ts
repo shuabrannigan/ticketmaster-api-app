@@ -10,6 +10,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { HttpClientModule } from "@angular/common/http";
+
 
 
 
@@ -26,7 +28,7 @@ const MaterialModules = [
 ]
 
 @NgModule({
-    imports: [CommonModule, BrowserAnimationsModule, MaterialModules,FormsModule, ReactiveFormsModule,],
+    imports: [CommonModule, HttpClientModule, BrowserAnimationsModule, MaterialModules,FormsModule, ReactiveFormsModule,],
     exports: [MaterialModules,FormsModule, ReactiveFormsModule, BrowserAnimationsModule]
 })
 export class SharedModule {}
