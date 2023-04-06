@@ -13,7 +13,7 @@ export interface TicketMasterEvent {
 
 export interface TicketMasterEventList {
     events: TicketMasterEvent[]
-    page: null
+    page: TicketMasterEventPage | null
 }
 
 export interface TicketMasterEventPage {
