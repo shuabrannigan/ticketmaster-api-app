@@ -1,9 +1,9 @@
 import { FormGroup } from "@angular/forms"
 
 export interface TicketMasterApiSearchTerm {
-    city: string
-    startDateTime: string
-    endDateTime: string
+    city: string | null
+    startDateTime: string | null
+    endDateTime: string | null
     page?: number
 }
 
