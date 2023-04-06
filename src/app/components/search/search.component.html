@@ -1,1 +1,7 @@
-<p>search works!</p>
+<div [formGroup]="searchForm">
+    <input type="text" data-test="cityInput" formControlName="city">
+    <input type="text" data-test="startDateInput">
+
+
+</div>
+<button data-test="searchButton" (click)="search()">Search</button>
