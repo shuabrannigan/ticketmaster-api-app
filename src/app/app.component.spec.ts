@@ -37,7 +37,7 @@ describe('AppComponent', () => {
     expect(toolbar).toBeTruthy()
   })
 
-  it('should render app-search', () => {
+  it('should click Filter Options button and render app-search', () => {
 
     /**
      * click button to make element visible
