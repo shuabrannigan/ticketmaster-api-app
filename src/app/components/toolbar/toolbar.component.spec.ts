@@ -41,7 +41,7 @@ describe('ToolbarComponent', () => {
   it('should render a button Filter Options', () => {
     const button = fixture.nativeElement.querySelector('[data-test="filter"]')
     expect(button instanceof HTMLButtonElement).toBe(true)
-    expect(button.innerHTML).toEqual('Filter Options')
+    expect(button.innerText).toEqual('Filter Options')
   })
 
   it('should toggle filterState when filter button clicked', () => {
