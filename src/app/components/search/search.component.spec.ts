@@ -79,5 +79,22 @@ describe('SearchComponent', () => {
     })
   })
 
+  describe('endDateTime Input', () => {
+    it('should render input', () => {
+      const input = fixture.nativeElement.querySelector('[data-test="endDateInput"]')
+      expect(input instanceof HTMLInputElement).toBe(true)
+    })
+
+    it('when formControl endDateTime updates, value of input should update', () => {
+      const date = new Date('2023-04-04').toISOString()
+      component.searchForm.patchValue({endDateTime: date})
+      const input = fixture.nativeElement.querySelector('[data-test="endDateInput"]')
+      const expectedValue = '4/4/2023'
+      expect(input.value).toEqual(expectedValue)
+
+      
+    })
+  })
+
 
 });

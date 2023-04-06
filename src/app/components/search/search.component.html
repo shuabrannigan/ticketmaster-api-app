@@ -6,7 +6,11 @@
         <mat-datepicker-toggle matIconSuffix [for]="startDate"></mat-datepicker-toggle>
         <mat-datepicker #startDate></mat-datepicker>
     </mat-form-field>
-
-
+    <mat-form-field appearance="fill">
+        <mat-label>Choose a date</mat-label>
+        <input data-test="endDateInput" formControlName="endDateTime" matInput [matDatepicker]="endDate">
+        <mat-datepicker-toggle matIconSuffix [for]="endDate"></mat-datepicker-toggle>
+        <mat-datepicker #endDate></mat-datepicker>
+    </mat-form-field>
 </div>
 <button data-test="searchButton" (click)="search()">Search</button>
