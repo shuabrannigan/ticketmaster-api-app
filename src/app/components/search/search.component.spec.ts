@@ -71,6 +71,10 @@ describe('SearchComponent', () => {
     it('when formControl startDateTime updates, value of input should update', () => {
       const date = new Date('2023-04-04').toISOString()
       component.searchForm.patchValue({startDateTime: date})
+      const input = fixture.nativeElement.querySelector('[data-test="startDateInput"]')
+      const expectedValue = '4/4/2023'
+      expect(input.value).toEqual(expectedValue)
+
       
     })
   })
