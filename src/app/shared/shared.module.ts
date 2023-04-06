@@ -13,6 +13,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { HttpClientModule } from "@angular/common/http";
 import { TicketMasterApiService } from "./services/api/ticketmaster-api.service";
 import { TicketMasterQueryService } from "./services/other/ticketmaster-query.service";
+import { LoadingService } from './services/other/loading.service';
 
 
 
@@ -30,8 +31,20 @@ const MaterialModules = [
 ]
 
 @NgModule({
-    imports: [CommonModule, HttpClientModule, BrowserAnimationsModule, MaterialModules,FormsModule, ReactiveFormsModule,],
-    exports: [MaterialModules,FormsModule, ReactiveFormsModule, BrowserAnimationsModule],
-    providers: [TicketMasterApiService, TicketMasterQueryService]
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MaterialModules,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
+  exports: [
+    MaterialModules,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+  ],
+  providers: [TicketMasterApiService, TicketMasterQueryService, LoadingService],
 })
 export class SharedModule {}
