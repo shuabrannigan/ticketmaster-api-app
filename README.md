@@ -1,27 +1,39 @@
 # TicketMaster Api App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4. It allows users to search for events using the Ticketmaster API
 
-## Development server
+## Getting started
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+To get started, clone the reproitory and install the dependencies by running the following comman in the projects root directory
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+``` bash
+npm install
+```
 
-## Build
+## Running the development server
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
+To run the development server, run the following command in the projects root directory
+``` bash
+ng serve
+```
+The application will be served at http://localhost:4200/. Any changes made to the code will automatically reload the server.
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+To run unit tests, run the following command in the root directory
+```bash
+ng test
+```
+This will run all the unit tests. 
 
-## Running end-to-end tests
+## Setup APIKEY
+To see the api working you will need to place an api key in `/src/environments/environments.ts`, you need to assign the APIKEY in this file.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```
+export const environment = {
+    production: false,
+    ticketMasterApiKey: 'ADD OWN API KEY HERE'
+}
+```
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Keys can be found here https://developer.ticketmaster.com/api-explorer/v2/
