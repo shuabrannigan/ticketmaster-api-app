@@ -7,7 +7,7 @@ import { TicketMasterQueryService } from 'src/app/shared/services/other/ticketma
 import { of } from 'rxjs';
 import { mockEventList } from '../list/list.types';
 
-class MockTicketQueryService {
+export class MockTicketQueryService {
   getEvents() {
     return of(mockEventList)
   }
