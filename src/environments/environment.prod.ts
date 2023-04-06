@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    ticketMasterApiKey: ''
+    ticketMasterApiKey: 'ADD OWN API KEY HERE'
 }
