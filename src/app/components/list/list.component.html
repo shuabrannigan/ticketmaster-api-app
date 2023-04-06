@@ -1,4 +1,8 @@
-<table>
+<div *ngIf="(loading$ | async); else content">
+<p data-test="loading">Loading!!</p>
+</div>
+<ng-template #content>
+<table data-test="table">
     <tr>
         <th>
             Name
@@ -11,3 +15,4 @@
     </ng-container>
 
 </table>
+</ng-template>

@@ -32,4 +32,25 @@ describe('ListComponent', () => {
     const rows = fixture.nativeElement.querySelectorAll('[data-test="event-row"]')
     expect(rows.length).toBe(5)
   })
+
+  describe('Loading...', () => {
+    it('if loading, loading element should be shown, table should not', () => {
+      component.loading$ = of(true)
+      fixture.detectChanges()
+      let loadingElement = fixture.nativeElement.querySelector('[data-test="loading"]')
+      let tableElement = fixture.nativeElement.querySelector('[data-test="table"]')
+      expect(loadingElement).toBeTruthy()
+      expect(tableElement).toBeFalsy()
+    })
+
+    it('if not loading, content element should be shown, loading should not', () => {
+      component.loading$ = of(false)
+      fixture.detectChanges()
+      let loadingElement = fixture.nativeElement.querySelector('[data-test="loading"]')
+      let tableElement = fixture.nativeElement.querySelector('[data-test="table"]')
+      expect(loadingElement).toBeFalsy()
+      expect(tableElement).toBeTruthy()
+    })
+  })
+
 });
