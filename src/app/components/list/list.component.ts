@@ -11,4 +11,8 @@ import { TicketMasterEventList } from 'src/app/misc/event.types';
 export class ListComponent implements IListComponent {
   list$: Observable<TicketMasterEventList> = of({events: [],page: null})
   loading$: Observable<boolean> = of(false)
+
+  onPageChange($event: any): void {
+    throw new Error('Method not implemented.');
+  }
 }

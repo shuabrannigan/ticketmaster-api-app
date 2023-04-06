@@ -4,6 +4,7 @@ import { TicketMasterEventList } from "src/app/misc/event.types";
 export interface IListComponent {
     list$: Observable<unknown>
     loading$: Observable<boolean>
+    onPageChange($event: any): void
 }
 
 export const mockEventList: TicketMasterEventList = {
