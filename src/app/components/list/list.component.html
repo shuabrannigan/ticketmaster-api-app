@@ -29,5 +29,15 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr data-test="event-row" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+
+        <mat-paginator
+        *ngIf="eventList.page && eventList.page.totalPages"
+        [pageSize]="eventList.page.size"
+        [pageIndex]="eventList.page.number"
+        [length]="eventList.page.totalElements"
+        (page)="onPageChange($event)"
+        >
+        </mat-paginator>
+
     </ng-container>
 </ng-template>
