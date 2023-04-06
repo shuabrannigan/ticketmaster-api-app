@@ -2,7 +2,7 @@
     <mat-toolbar-row>
         <span data-test="title">{{title}}</span>
         <div class="button-container">
-            <button *ngIf="!filterState" data-test="filter"  mat-raised-button color="accent" (click)="search()">Search</button>
+            <button *ngIf="!filterState" data-test="search"  mat-raised-button color="accent" (click)="search()">Search</button>
             <button mat-raised-button color="accent" data-test="filter" (click)="toggleFilterState()">Filter Options</button>
         </div>
     </mat-toolbar-row>

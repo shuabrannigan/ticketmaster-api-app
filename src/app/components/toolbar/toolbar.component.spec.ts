@@ -52,6 +52,13 @@ describe('ToolbarComponent', () => {
     expect(button.innerText).toEqual('Filter Options')
   })
 
+  it('should search a button Filter Options', () => {
+    const button = fixture.nativeElement.querySelector('[data-test="search"]')
+    expect(button instanceof HTMLButtonElement).toBe(true)
+    expect(button.innerText).toEqual('Search')
+  })
+
+
   it('should toggle filterState when filter button clicked', () => {
     const filterSpy = spyOn(component, 'toggleFilterState')
     const button = fixture.nativeElement.querySelector('[data-test="filter"]')
