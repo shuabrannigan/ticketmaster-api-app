@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { ToolbarComponent} from './components/toolbar/toolbar.component'
 import { SharedModule } from './shared/shared.module';
+import { SearchComponent } from './components/search/search.component';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>
@@ -14,7 +15,7 @@ describe('AppComponent', () => {
         RouterTestingModule, SharedModule
       ],
       declarations: [
-        AppComponent, ToolbarComponent
+        AppComponent, ToolbarComponent, SearchComponent
       ],
     }).compileComponents();
   });
@@ -29,8 +30,25 @@ describe('AppComponent', () => {
     expect(appComponent).toBeTruthy();
   });
 
+  
+
   it('should render app-toolbar', () => {
     const toolbar = fixture.nativeElement.querySelector('app-toolbar')
     expect(toolbar).toBeTruthy()
   })
+
+  it('should render app-search', () => {
+
+    /**
+     * click button to make element visible
+     */
+    let button = fixture.nativeElement.querySelector('[data-test="filter"]')
+    button.click()
+    fixture.detectChanges()
+
+    let search = fixture.nativeElement.querySelector('[data-test="search-component"]')
+    expect(search).toBeTruthy()
+  })
+
+
 });
