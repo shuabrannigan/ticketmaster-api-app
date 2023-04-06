@@ -7,12 +7,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { SharedModule } from './shared/shared.module';
 import { SearchComponent } from './components/search/search.component';
+import { ListComponent } from './components/list/list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
-    SearchComponent
+    SearchComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,
