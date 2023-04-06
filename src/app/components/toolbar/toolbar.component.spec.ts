@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ToolbarComponent } from './toolbar.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('ToolbarComponent', () => {
   let component: ToolbarComponent;
@@ -8,7 +9,8 @@ describe('ToolbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ToolbarComponent ]
+      declarations: [ ToolbarComponent ],
+      imports: [SharedModule]
     })
     .compileComponents();
 
@@ -48,5 +50,16 @@ describe('ToolbarComponent', () => {
     button.click()
     fixture.detectChanges()
     expect(filterSpy).toHaveBeenCalled()
+  })
+
+  it('when filter state toggles, toolbar-row should show/hide', () => {
+    component.filterState = false
+    const toolbarRow = fixture.nativeElement.querySelector('[data-test="filter-controlled"]')
+    const button = fixture.nativeElement.querySelector('[data-test="filter"]')
+    expect(toolbarRow).toBeFalsy()
+    button.click()
+    fixture.detectChanges()
+    const toolbarRowCheck = fixture.nativeElement.querySelector('[data-test="filter-controlled"]')
+    expect(toolbarRowCheck).toBeTruthy()
   })
 });
