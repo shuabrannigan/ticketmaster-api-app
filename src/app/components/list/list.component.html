@@ -1,1 +1,13 @@
-<p>list works!</p>
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+    </tr>
+    <ng-container *ngIf="list$ | async as eventList">
+        <tr data-test="event-row" *ngFor="let event of eventList.events">
+            <td>{{event.name}}</td>
+        </tr>
+    </ng-container>
+
+</table>

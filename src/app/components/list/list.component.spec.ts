@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ListComponent } from './list.component';
+import { of } from 'rxjs';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { mockEventList } from './list.types';
 
 describe('ListComponent', () => {
   let component: ListComponent;
@@ -8,6 +11,7 @@ describe('ListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [SharedModule],
       declarations: [ ListComponent ]
     })
     .compileComponents();
@@ -20,4 +24,12 @@ describe('ListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('using mockEventResponse it should render a table with 5 elements', () => {
+    component.loading$ = of(false)
+    component.list$ = of(mockEventList)
+    fixture.detectChanges()
+    const rows = fixture.nativeElement.querySelectorAll('[data-test="event-row"]')
+    expect(rows.length).toBe(5)
+  })
 });
