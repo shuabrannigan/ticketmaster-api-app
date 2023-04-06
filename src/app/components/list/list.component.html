@@ -2,17 +2,32 @@
 <p data-test="loading">Loading!!</p>
 </div>
 <ng-template #content>
-<table data-test="table">
-    <tr>
-        <th>
-            Name
-        </th>
-    </tr>
     <ng-container *ngIf="list$ | async as eventList">
-        <tr data-test="event-row" *ngFor="let event of eventList.events">
-            <td>{{event.name}}</td>
-        </tr>
-    </ng-container>
 
-</table>
+    <table data-test="table" mat-table [dataSource]=eventList.events>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Event Name</th>
+          <td mat-cell *matCellDef="let event">{{event.name}}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="venueName">
+          <th mat-header-cell *matHeaderCellDef>Venue</th>
+          <td mat-cell *matCellDef="let event">{{event.venueName}}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="startDate">
+          <th mat-header-cell *matHeaderCellDef>Event Start</th>
+          <td mat-cell *matCellDef="let event">{{event.startDate}}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="endDate">
+          <th mat-header-cell *matHeaderCellDef>Event End</th>
+          <td mat-cell *matCellDef="let event">{{event.endDate}}</td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr data-test="event-row" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </ng-container>
 </ng-template>

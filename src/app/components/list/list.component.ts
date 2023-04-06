@@ -12,6 +12,8 @@ export class ListComponent implements IListComponent {
   list$: Observable<TicketMasterEventList> = of({events: [],page: null})
   loading$: Observable<boolean> = of(false)
 
+  displayedColumns = ['name', 'venueName', 'startDate', 'endDate']
+
   onPageChange($event: any): void {
     throw new Error('Method not implemented.');
   }
