@@ -70,10 +70,17 @@ describe('TicketMasterQueryApiService', () => {
         })
 
         it('should populate responseEvents$ with api call response', (done) => {
-            spyOn(apiService, 'get').and.returnValue(of(mockEventList))
+            let mockresponse = {
+                _embedded: {
+                    events: mockEventList.events
+                },
+                page: mockEventList.page
+
+            } as any
+            spyOn(apiService, 'get').and.returnValue(of(mockresponse))
             service.getEvents(searchTerm).subscribe()
-            service.responseEvents$.subscribe(({events}) => {
-                expect(events.length).toBe(5)
+            service.responseEvents$.subscribe((response) => {
+                expect(response.events.length).toBe(5)
                 done()
             })
         })

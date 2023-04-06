@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, tap } from "rxjs";
+import { BehaviorSubject, Observable, catchError, map, switchMap, take, tap, throwError } from "rxjs";
 import { TicketMasterApiSearchTerm } from "src/app/components/search/search.types";
 import { TicketMasterEventList } from "src/app/misc/event.types";
 import { TicketMasterApiService } from "../api/ticketmaster-api.service";
@@ -10,7 +10,8 @@ interface ITicketMasterQueryService {
     previousSearchTerm: BehaviorSubject<TicketMasterApiSearchTerm>
     previousSearchTerm$: Observable<TicketMasterApiSearchTerm>
     getEvents(searchTerm: TicketMasterApiSearchTerm, pageIndex?: number): Observable<TicketMasterEventList>
-    convertDatesToISOFormat(searchTerm: TicketMasterApiSearchTerm): TicketMasterApiSearchTerm
+    convertDateToISOFormat(searchTerm: TicketMasterApiSearchTerm): TicketMasterApiSearchTerm
+    hydrateResponse(response: any): void
 }
 
 const DEFAULTSEARCHTERM: TicketMasterApiSearchTerm = {city: '', startDateTime: '', endDateTime: ''}
@@ -22,6 +23,7 @@ export class TicketMasterQueryService implements ITicketMasterQueryService {
 
     constructor(private ticketMasterApiService: TicketMasterApiService){}
 
+
     responseEvents: BehaviorSubject<TicketMasterEventList> = new BehaviorSubject<TicketMasterEventList>(DEFAULTEVENTRESPONSE)
     responseEvents$: Observable<TicketMasterEventList> = this.responseEvents.asObservable()
     previousSearchTerm: BehaviorSubject<TicketMasterApiSearchTerm> = new BehaviorSubject<TicketMasterApiSearchTerm>(DEFAULTSEARCHTERM)
@@ -31,12 +33,58 @@ export class TicketMasterQueryService implements ITicketMasterQueryService {
         if (searchTerm) {
             this.previousSearchTerm.next(searchTerm)
         }
-        // const correctedTerm$
-        return this.ticketMasterApiService.get(searchTerm).pipe(tap((response: any) => this.responseEvents.next(response)))
+        const correctedTerm$ = this.previousSearchTerm$.pipe(map((previousTerm) => {
+            let correctedTerm = this.convertDateToISOFormat(previousTerm)
+            return correctedTerm
+        }))
+        return correctedTerm$.pipe(
+            take(1),
+            switchMap((correctedTerm) => this.ticketMasterApiService.get(correctedTerm)),
+            tap((response: any) => this.hydrateResponse(response)),
+            catchError((error: any) => {
+                console.log(error)
+                return throwError(() => new Error(error))
+            }))
     }
 
-    convertDatesToISOFormat(searchTerm: TicketMasterApiSearchTerm): TicketMasterApiSearchTerm {
-        throw new Error("Method not implemented.");
+    convertDateToISOFormat(searchTerm: TicketMasterApiSearchTerm): TicketMasterApiSearchTerm {
+        const dateFields = ['startDateTime', 'endDateTime'];
+        const isoSearchTerm: any = {...searchTerm}
+        for (const field of dateFields) {
+            if (isoSearchTerm[field]) {
+                isoSearchTerm[field] = new Date(isoSearchTerm[field] as string).toISOString().slice(0,19) + 'Z'
+            }
+        }
+        return isoSearchTerm
+    }
+
+    hydrateResponse(response: any): void {
+        const events = 
+        response?._embedded?.events?.map(
+            ({
+              name = '',
+              id,
+              images = [],
+              url = '',
+              _embedded = {},
+              dates = {},
+            }: any) => ({
+              name,
+              id,
+              imageUrl: images[0]?.url || '',
+              url,
+              venueName: _embedded?.venues?.[0]?.name || '',
+              startDate: dates.start?.localDate || '',
+              endDate: dates.end?.localDate || dates.start?.localDate || '',
+            })
+          ) || [];
+
+          const concertEventList: TicketMasterEventList = {
+            page: response?.page || null,
+            events,
+          };
+      
+          this.responseEvents.next(concertEventList);
     }
 
 
