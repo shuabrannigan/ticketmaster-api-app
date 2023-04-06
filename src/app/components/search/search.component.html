@@ -1,5 +1,8 @@
 <div [formGroup]="searchForm">
-    <input type="text" data-test="cityInput" formControlName="city">
+    <mat-form-field>
+        <mat-label>City</mat-label>
+        <input data-test="cityInput" matInput formControlName="city">
+    </mat-form-field>
     <mat-form-field appearance="fill">
         <mat-label>Choose a date</mat-label>
         <input data-test="startDateInput" formControlName="startDateTime" matInput [matDatepicker]="startDate">
@@ -12,5 +15,5 @@
         <mat-datepicker-toggle matIconSuffix [for]="endDate"></mat-datepicker-toggle>
         <mat-datepicker #endDate></mat-datepicker>
     </mat-form-field>
+    <button mat-raised-button color="accent" data-test="searchButton" (click)="search()">Search</button>
 </div>
-<button data-test="searchButton" (click)="search()">Search</button>
