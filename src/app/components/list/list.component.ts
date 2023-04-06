@@ -18,7 +18,8 @@ export class ListComponent implements IListComponent {
   displayedColumns = ['name', 'venueName', 'startDate', 'endDate', 'eventUrl']
 
   onPageChange($event: any): void {
-    throw new Error('Method not implemented.');
+    const {pageIndex} = $event
+    this.ticketMasterQuery.getEvents(null, pageIndex).subscribe()
   }
 
   toEvent($url: string): void {
