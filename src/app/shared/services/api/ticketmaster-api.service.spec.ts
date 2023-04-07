@@ -74,7 +74,6 @@ describe('TicketMasterApiService', () => {
 
             } as any
             service.get({}).subscribe((events:any) => {
-                console.log(events)
                 expect(events.events.length).toBe(5)
                 done()
             })
