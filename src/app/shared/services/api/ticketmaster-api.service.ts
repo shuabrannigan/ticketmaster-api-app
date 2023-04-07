@@ -16,7 +16,6 @@ export class TicketMasterApiService extends AbstractApiService {
                 params = params.append(key, value)
             }
         }
-        params = params.append('apikey', environment.ticketMasterApiKey)
         return params
     }
 
