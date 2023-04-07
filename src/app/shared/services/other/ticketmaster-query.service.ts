@@ -12,7 +12,6 @@ interface ITicketMasterQueryService {
     previousSearchTerm$: Observable<TicketMasterApiSearchTerm>
     getEvents(searchTerm: TicketMasterApiSearchTerm, pageIndex?: number): Observable<TicketMasterEventList>
     convertDateToISOFormat(searchTerm: TicketMasterApiSearchTerm): TicketMasterApiSearchTerm
-    hydrateResponse(response: any): void
 }
 
 const DEFAULTSEARCHTERM: TicketMasterApiSearchTerm = {city: '', startDateTime: '', endDateTime: ''}
@@ -45,9 +44,11 @@ export class TicketMasterQueryService implements ITicketMasterQueryService {
         return correctedTerm$.pipe(
             take(1),
             switchMap((correctedTerm) => this.ticketMasterApiService.get(correctedTerm)),
-            tap((response: any) => this.hydrateResponse(response)),
+            tap((response: any) => {
+                this.responseEvents.next(response)
+                this.loadingService.loading.next(false)
+            }),
             catchError((error: any) => {
-                console.log(error)
                 this.loadingService.loading.next(false)
                 return throwError(() => new Error(error))
             }),
@@ -65,35 +66,7 @@ export class TicketMasterQueryService implements ITicketMasterQueryService {
         return isoSearchTerm
     }
 
-    hydrateResponse(response: any): void {
-        const events = 
-        response?._embedded?.events?.map(
-            ({
-              name = '',
-              id,
-              images = [],
-              url = '',
-              _embedded = {},
-              dates = {},
-            }: any) => ({
-              name,
-              id,
-              imageUrl: images[0]?.url || '',
-              url,
-              venueName: _embedded?.venues?.[0]?.name || '',
-              startDate: dates.start?.localDate || '',
-              endDate: dates.end?.localDate || dates.start?.localDate || '',
-            })
-          ) || [];
 
-          const concertEventList: TicketMasterEventList = {
-            page: response?.page || null,
-            events,
-          };
-      
-          this.responseEvents.next(concertEventList);
-          this.loadingService.loading.next(false)
-    }
 
 
     

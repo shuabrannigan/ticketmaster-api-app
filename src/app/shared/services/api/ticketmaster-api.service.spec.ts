@@ -42,12 +42,7 @@ describe('TicketMasterApiService', () => {
         it('method should exist', () => {
             expect(service.getParams).toBeTruthy()
         })
-        it('should return HttpParams obejct with apikey appended', () => {
-            const result = service.getParams(searchTerm)
-            expect(result instanceof HttpParams).toBeTrue()
-            expect(result.get('apikey')).toBe(environment.ticketMasterApiKey)
-        })
-
+  
         it('should append all non-null properties of the searchterm', () => {
             const result = service.getParams(searchTerm);
             expect(result.get('city')).toBe(searchTerm.city);
@@ -71,13 +66,20 @@ describe('TicketMasterApiService', () => {
         })
         
         it('should return events from the api', (done) => {
+            let mockresponse = {
+                _embedded: {
+                    events: mockEventList.events
+                },
+                page: mockEventList.page
+
+            } as any
             service.get({}).subscribe((events:any) => {
                 expect(events.events.length).toBe(5)
                 done()
             })
             const request = httpMock.expectOne(`${service.BASEURL}apikey=${encodeURI(environment.ticketMasterApiKey)}`)
             expect(request.request.method).toBe('GET')
-            request.flush(mockEventList)
+            request.flush(mockresponse)
         })
     })
 })
