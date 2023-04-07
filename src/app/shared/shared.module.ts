@@ -10,28 +10,24 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { HttpClientModule } from "@angular/common/http";
-import { TicketMasterApiService } from "./services/api/ticketmaster-api.service";
-import { TicketMasterQueryService } from "./services/other/ticketmaster-query.service";
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { TicketMasterApiService } from './services/api/ticketmaster-api.service';
+import { TicketMasterQueryService } from './services/other/ticketmaster-query.service';
 import { LoadingService } from './services/other/loading.service';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-
-
-
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TicketMasterInterceptor } from "./services/interceptors/ticketmaster-interceptor.service";
 
 const MaterialModules = [
-    MatToolbarModule,
-    MatButtonModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule
-
-]
+  MatToolbarModule,
+  MatButtonModule,
+  MatInputModule,
+  MatFormFieldModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatProgressSpinnerModule,
+];
 
 @NgModule({
   imports: [
@@ -48,6 +44,15 @@ const MaterialModules = [
     ReactiveFormsModule,
     BrowserAnimationsModule,
   ],
-  providers: [TicketMasterApiService, TicketMasterQueryService, LoadingService],
+  providers: [
+    TicketMasterApiService,
+    TicketMasterQueryService,
+    LoadingService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TicketMasterInterceptor,
+      multi: true,
+    },
+  ],
 })
 export class SharedModule {}
