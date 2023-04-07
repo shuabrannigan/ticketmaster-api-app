@@ -49,7 +49,6 @@ export class TicketMasterQueryService implements ITicketMasterQueryService {
                 this.loadingService.loading.next(false)
             }),
             catchError((error: any) => {
-                console.log(error)
                 this.loadingService.loading.next(false)
                 return throwError(() => new Error(error))
             }),
