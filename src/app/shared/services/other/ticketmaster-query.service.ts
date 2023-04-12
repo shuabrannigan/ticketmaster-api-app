@@ -42,6 +42,7 @@ export class TicketMasterQueryService implements ITicketMasterQueryService {
             return correctedTerm
         }))
         return correctedTerm$.pipe(
+            take(1),
             switchMap((correctedTerm) => this.ticketMasterApiService.get(correctedTerm)),
             tap((response: any) => {
                 this.responseEvents.next(response)
